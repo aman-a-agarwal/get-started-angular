@@ -1,0 +1,230 @@
+<html>
+		<head>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+		  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+		</head>
+		<body ng-app="mymodal" ng-controller="MainCtrl">
+		<div  class="container">
+			<center><h1>Add Customer information to the database</h1>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" ng-click="customerToEditIndex=-1;user={}"><span class="glyphicon glyphicon-plus"></span>Add Customers</button></center><br><hr><br>
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">	
+					<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Add Customer</h4>
+				</div>
+					<div class="modal-body">
+						<form name="myForm" role="form" ng-submit="insertdata()">
+						<div style="width:50%; display:inline-block;vertical-align:top">
+							<label>Customer Details</label><br>
+							<div class="form-group" ng-class="{'has-error': myForm.phoneNumber.$invalid && myForm.phoneNumber.$dirty }" >
+								<label>Phone:</label>
+									<div class="input-group" >
+											<span class="input-group-addon">+91</span>
+											<input style=" display:inline-block" class="form-control" name="phoneNumber" type="number" placeholder="Enter Mobile Number" ng-model="user.phonenumber" min="1000000000" max="9999999999" required>
+											<span class="input-group-btn"><button class="btn" ng-click="user.phonenumber=''"><span class="glyphicon glyphicon-remove-sign"></span></button></span>
+									</div>
+									<span ng-show="myForm.phoneNumber.$error.min || myForm.phoneNumber.$error.max">Not a valid number</span>
+							</div>
+							<div class="form-group" ng-class="{'has-error': myForm.firstName.$invalid && myForm.firstName.$dirty || myForm.lastName.$invalid && myForm.lastName.$dirty}">
+								<label>Name</label>
+								<div class="input-group">
+									<input class="form-control" style="width:49%; display:inline-block" name="firstName" type="text" required placeholder="First Name" ng-model="user.firstname">
+									</input><span ng-show=""></span>
+									<input class="form-control" name="lastName" style="width:49%; display:inline-block; float:right" type="text" placeholder="Last Name" ng-model="user.lastname"></input>
+								</div>
+								<span ng-show=""></span>
+							</div>
+							<div class="form-group" ng-class="{'has-error': myForm.email.$invalid && myForm.email.$dirty}">
+								<label>Email:</label>
+								<input class="form-control" name="email" type="email" placeholder="someone@example.com" ng-model="user.email" ng-invalid: the model is invalid>
+								</input>
+							<p ng-show="myForm.email.$invalid"></p>
+							</div>
+							<div class="form-group">
+								<label>Alternate Phone:</label>
+									<div class="input-group">
+										<span class="input-group-addon">+91</span>
+										<input style="width:68%; display:inline-block" class="form-control" size="10" name="altPhoneNumber" type="number" placeholder="Enter Mobile Number" ng-model="user.altphonenumber" min="1000000000" max="9999999999" required>
+										</input>
+									</div>
+									<span ng-show="myForm.altPhoneNumber.$error.min && myForm.altPhoneNumber.$error.min">Not a valid number</span>
+							</div>
+							<div class="form-group">
+								<label>Date of Birth:</label>
+									<input name="dob" type="date" class="form-control" ng-model="user.dob" required>
+									</input>
+									<span class='error' ng-show="myForm.dob.$error.required && myForm.dob.$touched">Please select a date</span>
+							</div>
+							<div class="form-group">
+								<label>Gender</label>
+									<input name="gender" type="radio" class="radio-inline" value="Male">Male</input>
+									<input name="gender" type="radio" class="radio-inline" value="Female">Female</input>
+									<input name="gender" type="radio" class="radio-inline" value="Others">Others</input>
+									<span ng-show=""></span>
+							</div>
+						</div>
+						<div style="width:49%;display:inline-block;vertical-align:top">
+							<label>Residential Details</label><br>
+							<div class="form-group">
+								<label>PIN Code</label>
+								<input class="form-control" type="tel" name="pincode" maxlength="6" placeholder="6 digit pincode" required ng-model="user.pincode">
+								</input>
+								<span ng-show=""></span>
+							</div>
+							<div class="form-group">
+								<label>Address</label>
+								<input class="form-control" type="textarea" name="address" required ng-model="user.address">
+								</input>
+								<p ng-show=""></p>
+							</div>
+							<div class="form-group">
+							<label>City</label>
+							<input class="form-control" type="text" name="city" required ng-model="user.city">
+							</input>
+							<p ng-show=""></p>
+							</div>
+							<div class="form-group">
+							<label>State</label>
+							<input class="form-control" type="text" name="state" required ng-model="user.state">
+							</input>
+							<p ng-show=""></p>
+							</div>
+							<div class="form-group">
+							<label>Country</label>
+							<input class="form-control" type="text" name="country" value="India" disabled>
+							</input>
+							<p ng-show=""></p>
+							</div>				
+						</div>
+				  </div>
+				  	<div class="modal-footer">
+					<button class="btn btn-primary" style="float:right" type="submit" ng-disabled="myForm.$invalid"><span class="glyphicon glyphicon-user"></span> Add customer</button>
+				  	  </form>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div><span>Page{{currentPage}}||Showing {{(currentPage-1)*pageSize + 1}}-{{((currentPage-1)*pageSize+pageSize)>(customers.length)?(customers.length):((currentPage-1)*pageSize+pageSize)}} of {{customers.length}}</span>	
+			<button class="btn btn-info btn-sm" style="float:right; width:110px" ng-click="removedata()">Delete</button>
+			<button class="btn btn-info btn-sm" style="float:right; width:110px" ng-click="shownextdata()" ng-disabled="customers.length<=currentPage*pageSize"><span class="glyphicon glyphicon-circle-arrow-right" ></span> Next page </button>
+			<button class="btn btn-info btn-sm" style="float:right; width:110px" ng-click="showprevdata()" ng-disabled="currentPage==1"><span class="glyphicon glyphicon-circle-arrow-left"></span> Previous page </button>
+			<table name="customerTable" class = "table table-hover table-striped">
+			  	<tr>
+					<th><input type="checkbox" ng-click="customerSelectAll()" ng-model="selectAllButton.isSelected"/></th>
+					<th>Phone number</th>
+					<th>Name</th>
+					<th>Address</th></tr>
+			 	<tr ng-repeat="customer in display" ng-class="{'success': customer.isSelected}">
+					<td><input type="checkbox" ng-model="customer.isSelected" /></td>
+					<td style="width:33%" ng-click="editCustomer(customer,$index, currentPage)">{{customer.phonenumber}}</td>
+					<td style="width:33%" ng-click="editCustomer(customer)">{{customer.firstname}}</td>
+					<td style="width:33%"ng-click="editCustomer(customer)">{{customer.address}}</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+			<script>
+			var mymodal = angular.module('mymodal', []);
+
+			mymodal.controller('MainCtrl', function ($scope) {
+	
+				$scope.customerToEditIndex;
+				/**$scope.customers=[]; **/
+				 	$scope.customers=	[{"phonenumber":1,"firstname":"Hitesh","lastname":"Bahl","address":"Elphinstone Road"},
+							{"phonenumber":2,"firstname":"Anuj","lastname":"Das","address":"Churchgate"},
+							{"phonenumber":3,"firstname":"Piyush","lastname":"Basu","address":"Vile Parle"},
+							{"phonenumber":4,"firstname":"Hardik","lastname":"Bahl","address":"Andheri"},
+							{"phonenumber":5,"firstname":"Dev","lastname":"Biswas","address":"Jogeshwari"},
+							{"phonenumber":6,"firstname":"Lakshya","lastname":"Kumar","address":"Sakinaka"},
+							{"phonenumber":7,"firstname":"Jai","lastname":"Waghmare","address":"Bandra"},
+							{"phonenumber":8,"firstname":"Srushti","lastname":"Verma","address":"Byculla"},
+							{"phonenumber":9,"firstname":"Seeta","lastname":"Sharma","address":"Panvel"},
+							{"phonenumber":10,"firstname":"Deep","lastname":"Gupta","address":"Asangaon"},
+							{"phonenumber":11,"firstname":"Bipin","lastname":"Pandey","address":"Govandi"},
+							{"phonenumber":12,"firstname":"Darpan","lastname":"Shah","address":"Virar"},
+							{"phonenumber":13,"firstname":"Mithali","lastname":"Todi","address":"Malad"},
+							{"phonenumber":14,"firstname":"Jaishree","lastname":"H","address":"Kandivali"},
+							{"phonenumber":15,"firstname":"Kajal","lastname":"Agarwal","address":"Gorai"},
+							{"phonenumber":16,"firstname":"Harman","lastname":"Chaubey","address":"Mahim"},
+							{"phonenumber":17,"firstname":"Kajal","lastname":"Dedhia","address":"Dadar"},
+							{"phonenumber":18,"firstname":"Harsh","lastname":"Das","address":"Powai"},
+							{"phonenumber":19,"firstname":"Nitin","lastname":"Basu","address":"Sion"},
+							{"phonenumber":20,"firstname":"Nikhil","lastname":"Irani","address":"Nerul"},
+							{"phonenumber":21,"firstname":"Lokesh","lastname":"Gonzales","address":"Mulund"},
+							{"phonenumber":22,"firstname":"Ajay","lastname":"Mehta","address":"Airoli"},
+							{"phonenumber":23,"firstname":"Amit","lastname":"Mishra","address":"Vasai"},
+							{"phonenumber":24,"firstname":"Binny","lastname":"Agarwal","address":"Churchgate"},
+							{"phonenumber":25,"firstname":"Rutuja","lastname":"Patil","address":"Sion"}];
+				 $scope.display=[];
+				 $scope.currentPage = 1;
+				 $scope.pageSize = 5;
+
+				 $scope.insertdata = function(){
+						if($scope.customerToEditIndex==-1){
+						$scope.customers.unshift($scope.user);
+						$scope.currentPage = 1;
+						}
+						else if($scope.customerToEditIndex>-1){
+							console.log($scope.user, $scope.customerToEditIndex);
+							$scope.customers[$scope.customerToEditIndex] = $scope.user;
+						}
+						$scope.showdata();
+						$scope.user={};
+						$('#myModal').modal("hide");
+						$scope.customerToEditIndex=-1;
+						$scope.myForm.$setPristine();
+				 };
+				 
+				$scope.editCustomer = function(customer,index, page){	
+						$scope.user = angular.copy(customer, $scope.user);
+						$scope.customerToEditIndex=((page-1)*$scope.pageSize+index);
+						$('#myModal').modal();
+				}
+				$scope.showdata = function(){
+						$scope.display = $scope.customers.slice(($scope.currentPage-1)*$scope.pageSize,($scope.currentPage)*$scope.pageSize);
+				};
+		
+				$scope.showdata();
+		
+				$scope.shownextdata = function(){
+						$scope.currentPage=$scope.currentPage+1;
+						$scope.showdata();
+				};
+				 
+				$scope.showprevdata = function(){
+						$scope.currentPage=$scope.currentPage-1;
+						$scope.showdata();
+				};
+		
+				$scope.removedata = function(){
+						for(var k=0; k<$scope.customers.length;k++){
+							if($scope.customers[k].isSelected==true){
+								$scope.customers.splice(k,1);
+									k--;
+							}
+				}
+				if($scope.customers.length==0){$scope.currentPage=1;}
+						$scope.showdata();
+				}
+				$scope.customerSelectAll = function(){
+			
+							for(var k=0; k<$scope.customers.length; k++){
+								if($scope.selectAllButton.isSelected){
+								$scope.customers[k].isSelected=true;
+								}
+								else if(!$scope.selectAllButton.isSelected){
+								$scope.customers[k].isSelected=false;
+								}
+							}
+				 }
+				 
+			});
+			</script>
+		</body>
+</html>
